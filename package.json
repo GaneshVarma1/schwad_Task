@@ -1,0 +1,17 @@
+{
+  "name": "relay-dashboard-checks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/dashboard.test.mjs tests/dashboard-dom.test.mjs",
+    "format": "prettier --write app/static tests/*.mjs",
+    "format:check": "prettier --check app/static tests/*.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "29.1.1",
+    "prettier": "3.9.6"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

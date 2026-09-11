@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#006fba" />
+    <meta
+      name="description"
+      content="Schwab Link Manager — interview prototype for short links and analytics."
+    />
+    <title>Schwab Link Manager · Interview prototype</title>
+    <link rel="icon" href="/ui/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ui/assets/dashboard.css" />
+    <script src="/ui/assets/dashboard.js" type="module"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to workspace</a>
+    <aside class="sidebar">
+      <a
+        href="#overview"
+        class="brand"
+        aria-label="Schwab Link Manager overview"
+      >
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span class="brand-copy"
+          ><strong>Schwab</strong><small>Link Manager</small></span
+        >
+      </a>
+      <div class="workspace">
+        <span class="workspace-avatar">SL</span>
+        <div><strong>Engineering tools</strong><span>URL shortener</span></div>
+        <span class="workspace-lock" data-icon="lock"></span>
+      </div>
+      <p class="nav-label">INTERNAL TOOLS</p>
+      <nav aria-label="Main navigation">
+        <a class="nav-item active" href="#overview" data-view="overview"
+          ><span data-icon="grid"></span>Overview</a
+        >
+        <a class="nav-item" href="#links" data-view="links"
+          ><span data-icon="link"></span>All links<span
+            id="nav-count"
+            class="nav-count"
+            >—</span
+          ></a
+        >
+        <a class="nav-item" href="#analytics" data-view="analytics"
+          ><span data-icon="chart"></span>Analytics</a
+        >
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note">
+          <span class="note-icon" data-icon="shield"></span
+          ><strong>Trusted links. Clear insights.</strong>
+          <p>Create, monitor, and manage short URLs.</p>
+        </div>
+        <a
+          class="nav-item"
+          href="/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><span data-icon="book"></span>API documentation<span
+            class="end-icon"
+            data-icon="external"
+          ></span
+        ></a>
+        <button id="connection-button" class="profile">
+          <span class="profile-avatar" data-icon="user"></span
+          ><span
+            ><strong id="profile-name">Workspace access</strong
+            ><small id="profile-status">Connect to your service</small></span
+          ><span class="end-icon" data-icon="settings"></span>
+        </button>
+      </div>
+    </aside>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="breadcrumb">
+          Link Manager <span>/</span>
+          <strong id="breadcrumb-view">Overview</strong>
+        </div>
+        <div class="topbar-right">
+          <span id="connection-state" class="connection-state"
+            ><span></span>Not connected</span
+          ><button
+            id="theme-toggle"
+            class="icon-button"
+            type="button"
+            aria-label="Switch to dark mode"
+            title="Switch to dark mode"
+          ></button
+          ><a
+            href="/docs"
+            class="icon-button docs-shortcut"
+            aria-label="Open API documentation"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-icon="book"
+          ></a
+          ><span class="top-avatar">SL</span>
+        </div>
+      </header>
+      <main id="main" tabindex="-1">
+        <div id="demo-banner" class="demo-banner" hidden>
+          <span data-icon="sparkles"></span
+          ><span
+            ><strong>Interview prototype</strong> · This view uses synthetic
+            sample links and analytics. Changes stay in this isolated demo and
+            may reset.</span
+          ><span class="demo-badge">DEMO DATA</span>
+        </div>
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">SCHWAB LINK MANAGEMENT</div>
+            <h1 id="page-title">Overview</h1>
+            <p id="page-subtitle">Every link, and the impact behind it.</p>
+          </div>
+          <div class="heading-actions">
+            <button id="refresh" class="button secondary">
+              <span data-icon="refresh"></span><span>Refresh</span></button
+            ><button class="button primary create-trigger">
+              <span data-icon="plus"></span>Create link
+            </button>
+          </div>
+        </div>
+        <div id="page-error" class="error-banner" role="alert" hidden></div>
+        <section id="metrics" class="metrics" aria-label="Workspace statistics">
+          <article class="metric">
+            <div class="metric-top">
+              <span>Total clicks</span
+              ><span class="metric-icon violet" data-icon="cursor"></span>
+            </div>
+            <strong id="metric-clicks">—</strong
+            ><span class="metric-note">Across all your links</span>
+          </article>
+          <article class="metric">
+            <div class="metric-top">
+              <span>Total links</span
+              ><span class="metric-icon blue" data-icon="link"></span>
+            </div>
+            <strong id="metric-links">—</strong
+            ><span class="metric-note">All destinations, one place</span>
+          </article>
+          <article class="metric">
+            <div class="metric-top">
+              <span>Active links</span
+              ><span class="metric-icon green" data-icon="activity"></span>
+            </div>
+            <strong id="metric-active">—</strong
+            ><span class="metric-note"
+              ><span class="tiny-dot"></span>Ready to share</span
+            >
+          </article>
+          <article class="metric">
+            <div class="metric-top">
+              <span>Clicks today</span
+              ><span class="metric-icon amber" data-icon="sun"></span>
+            </div>
+            <strong id="metric-today">—</strong
+            ><span class="metric-note">Since midnight UTC</span>
+          </article>
+        </section>
+        <section
+          id="analytics-section"
+          class="analytics-grid"
+          aria-label="Click analytics"
+        >
+          <article class="panel activity-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Click activity</h2>
+                <p>See how your links perform over time.</p>
+              </div>
+              <label class="select-wrap"
+                ><span class="sr-only">Chart date range</span
+                ><select id="chart-days">
+                  <option value="7">Last 7 days</option>
+                  <option value="30" selected>Last 30 days</option>
+                  <option value="90">Last 90 days</option>
+                </select></label
+              >
+            </div>
+            <div class="chart-summary">
+              <strong id="chart-total">—</strong
+              ><span>clicks in this period</span
+              ><span class="chart-legend"><i></i>Clicks</span>
+            </div>
+            <div id="activity-chart" class="activity-chart">
+              <div class="chart-placeholder">
+                Connect your workspace to see click activity.
+              </div>
+            </div>
+          </article>
+          <article class="panel top-links-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Top performing links</h2>
+                <p>Your most visited destinations.</p>
+              </div>
+              <span class="subtle-icon" data-icon="trending"></span>
+            </div>
+            <div id="top-links" class="top-links">
+              <div class="small-empty">Your top links will appear here.</div>
+            </div>
+            <div class="panel-foot">Ranked by all-time clicks</div>
+          </article>
+        </section>
+        <section class="panel links-panel" aria-labelledby="links-title">
+          <div class="panel-heading">
+            <div class="section-title">
+              <h2 id="links-title">Your links</h2>
+              <span id="link-total" class="count-badge">0</span>
+            </div>
+            <div class="search">
+              <span data-icon="search"></span
+              ><input
+                id="search"
+                type="search"
+                placeholder="Search links or destinations…"
+                aria-label="Search links or destinations"
+                maxlength="200"
+              /><kbd>/</kbd>
+            </div>
+          </div>
+          <div class="table-toolbar">
+            <div
+              class="filters"
+              role="group"
+              aria-label="Filter links by status"
+            >
+              <button
+                class="filter active"
+                data-status="all"
+                aria-pressed="true"
+              >
+                All links</button
+              ><button class="filter" data-status="active" aria-pressed="false">
+                Active</button
+              ><button
+                class="filter"
+                data-status="expired"
+                aria-pressed="false"
+              >
+                Expired</button
+              ><button
+                class="filter"
+                data-status="disabled"
+                aria-pressed="false"
+              >
+                Disabled
+              </button>
+            </div>
+            <span class="sort-label"
+              ><span data-icon="sort"></span>Newest first</span
+            >
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Destination</th>
+                  <th scope="col">Short link</th>
+                  <th scope="col" class="numeric">Clicks</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Created</th>
+                  <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="link-rows"></tbody>
+            </table>
+          </div>
+          <div id="empty-state" class="empty-state">
+            <div class="empty-icon" data-icon="link"></div>
+            <h3>Your next great link starts here.</h3>
+            <p>
+              Create a short link to share your destination and start tracking
+              clicks.
+            </p>
+            <button class="button primary create-trigger">
+              <span data-icon="plus"></span>Create your first link
+            </button>
+          </div>
+          <div class="table-footer">
+            <span id="pagination-label">No links to display</span>
+            <div class="pagination">
+              <button
+                id="previous-page"
+                class="button compact secondary"
+                disabled
+              >
+                <span data-icon="left"></span>Previous</button
+              ><button id="next-page" class="button compact secondary" disabled>
+                Next<span data-icon="right"></span>
+              </button>
+            </div>
+          </div>
+        </section>
+        <footer class="workspace-footer">
+          <span
+            ><span class="tiny-dot"></span
+            ><span id="last-updated">Ready when you are</span></span
+          ><span class="footer-meta"
+            ><span
+              >Interview assignment prototype · Not a production Schwab
+              system</span
+            ><span aria-hidden="true">·</span
+            ><a
+              href="https://www.srishiram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Built by Sri</a
+            ></span
+          >
+        </footer>
+      </main>
+    </div>
+    <dialog
+      id="connect-dialog"
+      class="modal connect-modal"
+      aria-labelledby="connect-title"
+    >
+      <form id="connect-form">
+        <div class="modal-heading">
+          <span class="dialog-icon" data-icon="lock"></span
+          ><button
+            type="button"
+            class="icon-button close-dialog"
+            aria-label="Close connection settings"
+            data-icon="close"
+          ></button>
+        </div>
+        <h2 id="connect-title">Connect your workspace</h2>
+        <p>Enter your service API key to manage links and view analytics.</p>
+        <label for="api-key">API key</label
+        ><input
+          id="api-key"
+          type="password"
+          required
+          autocomplete="off"
+          placeholder="Enter your bearer API key"
+        />
+        <p class="field-help">
+          Your key is kept in memory only and cleared when you reload or
+          disconnect.
+        </p>
+        <p id="connect-error" class="form-error" role="alert" hidden></p>
+        <div class="modal-actions">
+          <button id="disconnect" type="button" class="button secondary" hidden>
+            Disconnect</button
+          ><button type="submit" class="button primary">
+            Connect workspace<span data-icon="right"></span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="create-dialog" class="modal" aria-labelledby="create-title">
+      <form id="create-form">
+        <div class="modal-heading">
+          <span class="dialog-icon" data-icon="link"></span
+          ><button
+            type="button"
+            class="icon-button close-dialog"
+            aria-label="Close create link"
+            data-icon="close"
+          ></button>
+        </div>
+        <h2 id="create-title">Make your next connection.</h2>
+        <p>A shorter link. The same great destination.</p>
+        <label for="destination"
+          >Destination URL <span class="required">*</span></label
+        ><input
+          id="destination"
+          type="url"
+          required
+          maxlength="2048"
+          placeholder="https://example.com/your-next-big-thing"
+          autocomplete="url"
+        />
+        <div class="form-grid">
+          <div>
+            <label for="alias"
+              >Custom alias <span class="optional">Optional</span></label
+            ><input
+              id="alias"
+              type="text"
+              minlength="4"
+              maxlength="32"
+              pattern="[A-Za-z0-9_-]{4,32}"
+              placeholder="e.g. product-launch"
+            />
+            <p class="field-help">4–32 letters, numbers, - or _</p>
+          </div>
+          <div>
+            <label for="expiry"
+              >Expiration <span class="optional">Optional</span></label
+            ><input id="expiry" type="datetime-local" />
+            <p class="field-help">In your local timezone</p>
+          </div>
+        </div>
+        <div class="link-preview">
+          <span data-icon="link"></span
+          ><span id="link-preview">Your short link will appear here</span>
+        </div>
+        <p id="create-error" class="form-error" role="alert" hidden></p>
+        <div class="modal-actions">
+          <button type="button" class="button secondary close-dialog">
+            Cancel</button
+          ><button id="create-submit" type="submit" class="button primary">
+            Create link<span data-icon="right"></span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog
+      id="details-dialog"
+      class="modal details-modal"
+      aria-labelledby="details-title"
+    >
+      <div class="modal-heading">
+        <span class="dialog-icon" data-icon="chart"></span
+        ><button
+          class="icon-button close-dialog"
+          aria-label="Close link details"
+          data-icon="close"
+        ></button>
+      </div>
+      <p class="eyebrow">LINK DETAILS</p>
+      <h2 id="details-title">Link analytics</h2>
+      <div id="details-content"></div>
+    </dialog>
+    <dialog
+      id="disable-dialog"
+      class="modal small-modal"
+      aria-labelledby="disable-title"
+    >
+      <div class="modal-heading">
+        <span class="dialog-icon danger-icon" data-icon="pause"></span
+        ><button
+          class="icon-button close-dialog"
+          aria-label="Cancel disabling link"
+          data-icon="close"
+        ></button>
+      </div>
+      <h2 id="disable-title">Disable this link?</h2>
+      <p>
+        Visitors will no longer be redirected. Your analytics will be preserved.
+        This action cannot be undone in this workspace.
+      </p>
+      <p id="disable-code" class="disable-code"></p>
+      <p id="disable-error" class="form-error" role="alert" hidden></p>
+      <div class="modal-actions">
+        <button class="button secondary close-dialog">Keep active</button
+        ><button id="confirm-disable" class="button danger">
+          Disable link
+        </button>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
